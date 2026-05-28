@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 16% 8%;
+    --foreground: 210 20% 92%;
+    --card: 220 14% 11%;
+    --card-foreground: 210 20% 92%;
+    --popover: 220 14% 11%;
+    --popover-foreground: 210 20% 92%;
+    --primary: 195 85% 50%;
+    --primary-foreground: 220 16% 8%;
+    --secondary: 220 12% 16%;
+    --secondary-foreground: 210 15% 75%;
+    --muted: 220 12% 16%;
+    --muted-foreground: 210 10% 50%;
+    --accent: 220 12% 20%;
+    --accent-foreground: 210 20% 92%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 12% 18%;
+    --input: 220 12% 14%;
+    --ring: 195 85% 50%;
+    --radius: 0.75rem;
+
+    /* Clinical colors */
+    --vital-green: 142 70% 45%;
+    --vital-yellow: 45 90% 55%;
+    --vital-red: 0 75% 55%;
+    --vital-blue: 210 80% 60%;
+    --vital-orange: 25 85% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-inter antialiased;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: hsl(var(--background)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+
+/* Monitor pulse animation */
+@keyframes pulse-vital {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-vital { animation: pulse-vital 1.8s ease-in-out infinite; }
+
+/* ECG line animation */
+@keyframes ecg-scroll {
+  from { stroke-dashoffset: 300; }
+  to { stroke-dashoffset: 0; }
+}

@@ -1,0 +1,86 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSeedAdmin() {
+      return signedIn()
+        && request.auth.token.email == "vazquezhernandezsebastian1@gmail.com";
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function pendingDoc() {
+      return get(/databases/$(database)/documents/pending_users/$(request.auth.token.email));
+    }
+
+    function hasUserDoc() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function hasPendingDoc() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/pending_users/$(request.auth.token.email));
+    }
+
+    function isAdmin() {
+      return isSeedAdmin()
+        || (hasUserDoc() && userDoc().data.role == "admin" && userDoc().data.is_active != false);
+    }
+
+    function isActiveUser() {
+      return signedIn()
+        && (
+          isSeedAdmin()
+          || (hasUserDoc() && userDoc().data.is_active != false)
+          || (hasPendingDoc() && pendingDoc().data.is_active != false)
+        );
+    }
+
+    function isSelfEmail(email) {
+      return signedIn() && request.auth.token.email == email;
+    }
+
+    match /clinical_cases/{document=**} {
+      allow read: if isAdmin() || (isActiveUser() && resource.data.status == "published");
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /student_accounts/{document} {
+      allow read: if isAdmin() || (isActiveUser() && isSelfEmail(resource.data.email));
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /student_results/{document} {
+      allow read: if isAdmin() || (isActiveUser() && isSelfEmail(resource.data.student_email));
+      allow create: if isActiveUser() && isSelfEmail(request.resource.data.student_email);
+      allow update, delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow get: if isAdmin() || (signedIn() && userId == request.auth.uid);
+      allow list: if isAdmin();
+      allow create: if signedIn()
+        && userId == request.auth.uid
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.is_active != false
+        && (
+          ((request.resource.data.role == "student" || request.resource.data.role == "user") && hasPendingDoc())
+          || (request.resource.data.role == "admin" && (isSeedAdmin() || (hasPendingDoc() && pendingDoc().data.role == "admin")))
+        );
+      allow update: if isAdmin() || (signedIn() && userId == request.auth.uid && request.resource.data.role == resource.data.role);
+      allow delete: if isAdmin();
+    }
+
+    match /pending_users/{email} {
+      allow get: if isAdmin() || (signedIn() && email == request.auth.token.email);
+      allow list, create, update, delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,22 @@
+# Dependencias
+node_modules/
+
+# Builds y salidas generadas
+dist/
+build/
+.firebase/
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+
+# Temporales locales
+.tmp/
+*.log
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
