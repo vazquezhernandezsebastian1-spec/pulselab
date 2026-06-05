@@ -15,7 +15,7 @@ export default function TeacherLayout() {
           <nav className="flex items-center gap-4 text-sm">
             <Link to="/teacher/cases" className="text-muted-foreground hover:text-foreground">Casos</Link>
             <Link to="/teacher/reports" className="text-muted-foreground hover:text-foreground">Reportes</Link>
-            <Link to="/teacher/students" className="text-muted-foreground hover:text-foreground">Alumnos</Link>
+            <Link to="/teacher/students" className="text-muted-foreground hover:text-foreground">Usuarios</Link>
             <span className="hidden text-muted-foreground sm:inline">{user?.email}</span>
             <button onClick={logout} className="rounded-md border border-border px-3 py-1.5 hover:bg-accent">
               Salir
