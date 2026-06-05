@@ -294,8 +294,8 @@ export default function UserManagement() {
                 <Input value={studentForm.full_name} onChange={e => setStudentForm(f => ({ ...f, full_name: e.target.value }))} placeholder="Nombre Apellido" className="bg-input" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Correo Institucional</Label>
-                <Input value={studentForm.email} onChange={e => setStudentForm(f => ({ ...f, email: e.target.value }))} placeholder="correo@edu.uaa.mx" type="email" className="bg-input" disabled={!!editingStudent} />
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Correo electrónico</Label>
+                <Input value={studentForm.email} onChange={e => setStudentForm(f => ({ ...f, email: e.target.value }))} placeholder="correo@ejemplo.com" type="email" className="bg-input" disabled={!!editingStudent} />
               </div>
               {!editingStudent && (
                 <div className="rounded-lg bg-secondary/40 border border-border p-3 flex gap-2">
@@ -337,8 +337,8 @@ export default function UserManagement() {
                 <Input value={teacherForm.full_name} onChange={e => setTeacherForm(f => ({ ...f, full_name: e.target.value }))} placeholder="Nombre Apellido" className="bg-input" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Correo Institucional</Label>
-                <Input value={teacherForm.email} onChange={e => setTeacherForm(f => ({ ...f, email: e.target.value }))} placeholder="correo@edu.uaa.mx" type="email" className="bg-input" />
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Correo electrónico</Label>
+                <Input value={teacherForm.email} onChange={e => setTeacherForm(f => ({ ...f, email: e.target.value }))} placeholder="correo@ejemplo.com" type="email" className="bg-input" />
               </div>
               <div className="rounded-lg bg-secondary/40 border border-border p-3 flex gap-2">
                 <Mail className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
