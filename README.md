@@ -46,8 +46,13 @@ La aplicación cubre los flujos principales solicitados en el proyecto:
 - `documentacion/Rubrica_Evaluacion_Final.docx`
 - `minutas/Minuta_Entrevista_Inicial.docx`
 - `minutas/Minuta_Validacion_Prototipo.docx`
+- `diagramas/AS_IS.jpg`
+- `diagramas/Diagrama_AS-IS.pdf`
+- `diagramas/TO-BE.jpg`
+- `diagramas/Diagrama_TO-BE.pdf`
+- `diagramas/Diagrama_ER.png`
 - `diagramas/Diagrama_ER.mwb`
-- `diagramas/Modelo_de_negocios_virtual_beat.jpg`
+- `diagramas/Diagrama_ER.mwb.zip`
 
 ## Tecnologías utilizadas
 
@@ -58,6 +63,9 @@ La aplicación cubre los flujos principales solicitados en el proyecto:
 - Cloud Firestore
 - Firebase Hosting
 - Three.js
+- Base44
+- Codex
+- Claude
 
 ## Ejecutar localmente
 
