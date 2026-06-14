@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -37,7 +37,7 @@ export default function CaseEditor() {
 
   useEffect(() => {
     if (!isNew) {
-      base44.entities.ClinicalCase.get(id).then(c => {
+      dataClient.entities.ClinicalCase.get(id).then(c => {
         setForm({
           title: c.title || '',
           status: c.status || 'draft',
@@ -126,9 +126,9 @@ export default function CaseEditor() {
         duration_minutes: form.duration_minutes ? Number(form.duration_minutes) : undefined,
       };
       if (isNew) {
-        await base44.entities.ClinicalCase.create(payload);
+        await dataClient.entities.ClinicalCase.create(payload);
       } else {
-        await base44.entities.ClinicalCase.update(id, payload);
+        await dataClient.entities.ClinicalCase.update(id, payload);
       }
       navigate('/teacher/cases');
     } catch (error) {

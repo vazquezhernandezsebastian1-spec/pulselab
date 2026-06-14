@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import { BookOpen, Clock, HelpCircle, Play, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -10,7 +10,7 @@ export default function StudentCases() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    base44.entities.ClinicalCase.filter({ status: 'published' }, '-created_date')
+    dataClient.entities.ClinicalCase.filter({ status: 'published' }, '-created_date')
       .then(setCases)
       .finally(() => setLoading(false));
   }, []);

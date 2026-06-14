@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import { BarChart3, Download, Eye, Search, Timer, Trophy, Users } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Button } from '@/components/ui/button';
@@ -36,8 +36,8 @@ export default function Reports() {
 
   useEffect(() => {
     Promise.all([
-      base44.entities.StudentResult.list('-completed_at'),
-      base44.entities.ClinicalCase.list(),
+      dataClient.entities.StudentResult.list('-completed_at'),
+      dataClient.entities.ClinicalCase.list(),
     ]).then(([r, c]) => {
       setResults(r);
       setCases(c);

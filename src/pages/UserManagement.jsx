@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import { PlusCircle, Edit2, Trash2, UserX, UserCheck, Check, GraduationCap, BookOpen, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,9 +28,9 @@ export default function UserManagement() {
   const load = async () => {
     setLoading(true);
     const [users, pendingUsers, accounts] = await Promise.all([
-      base44.entities.User.list('-created_date'),
-      base44.entities.PendingUser.list('-created_date'),
-      base44.entities.StudentAccount.list('-created_date'),
+      dataClient.entities.User.list('-created_date'),
+      dataClient.entities.PendingUser.list('-created_date'),
+      dataClient.entities.StudentAccount.list('-created_date'),
     ]);
     const allUsersByEmail = new Map();
     [...pendingUsers, ...users].forEach((u) => allUsersByEmail.set(u.email, u));
@@ -41,7 +41,7 @@ export default function UserManagement() {
     const accountEmails = new Set(accounts.map(a => a.email));
     for (const u of studentUsers) {
       if (!accountEmails.has(u.email)) {
-        await base44.entities.StudentAccount.create({
+        await dataClient.entities.StudentAccount.create({
           full_name: u.full_name || u.email,
           email: u.email,
           is_active: u.is_active !== false,
@@ -49,7 +49,7 @@ export default function UserManagement() {
         });
       }
     }
-    const updated = await base44.entities.StudentAccount.list('-created_date');
+    const updated = await dataClient.entities.StudentAccount.list('-created_date');
     setStudents(updated);
     setTeachers(teacherUsers);
     setLoading(false);
@@ -73,14 +73,14 @@ export default function UserManagement() {
     if (!studentForm.full_name.trim() || !studentForm.email.trim()) return;
     setSavingStudent(true);
     if (editingStudent) {
-      await base44.entities.StudentAccount.update(editingStudent.id, { full_name: studentForm.full_name });
-      const existingUsers = await base44.entities.User.filter({ email: editingStudent.email });
-      if (existingUsers[0]) await base44.entities.User.update(existingUsers[0].id, { full_name: studentForm.full_name });
-      await base44.entities.PendingUser.update(editingStudent.email, { full_name: studentForm.full_name }).catch(() => null);
+      await dataClient.entities.StudentAccount.update(editingStudent.id, { full_name: studentForm.full_name });
+      const existingUsers = await dataClient.entities.User.filter({ email: editingStudent.email });
+      if (existingUsers[0]) await dataClient.entities.User.update(existingUsers[0].id, { full_name: studentForm.full_name });
+      await dataClient.entities.PendingUser.update(editingStudent.email, { full_name: studentForm.full_name }).catch(() => null);
       setShowStudentModal(false);
     } else {
-      await base44.users.inviteUser(studentForm.email, 'student', { full_name: studentForm.full_name });
-      await base44.entities.StudentAccount.create({
+      await dataClient.users.inviteUser(studentForm.email, 'student', { full_name: studentForm.full_name });
+      await dataClient.entities.StudentAccount.create({
         full_name: studentForm.full_name,
         email: studentForm.email,
         is_active: true,
@@ -93,24 +93,24 @@ export default function UserManagement() {
   };
 
   const handleToggleActive = async (s) => {
-    await base44.entities.StudentAccount.update(s.id, { is_active: !s.is_active });
-    const existingUsers = await base44.entities.User.filter({ email: s.email });
-    if (existingUsers[0]) await base44.entities.User.update(existingUsers[0].id, { is_active: !s.is_active });
-    await base44.entities.PendingUser.update(s.email, { is_active: !s.is_active }).catch(() => null);
+    await dataClient.entities.StudentAccount.update(s.id, { is_active: !s.is_active });
+    const existingUsers = await dataClient.entities.User.filter({ email: s.email });
+    if (existingUsers[0]) await dataClient.entities.User.update(existingUsers[0].id, { is_active: !s.is_active });
+    await dataClient.entities.PendingUser.update(s.email, { is_active: !s.is_active }).catch(() => null);
     load();
   };
 
   const deleteUserRecordsByEmail = async (email) => {
     const normalizedEmail = email.trim().toLowerCase();
     const [users, accounts] = await Promise.all([
-      base44.entities.User.filter({ email: normalizedEmail }),
-      base44.entities.StudentAccount.filter({ email: normalizedEmail }),
+      dataClient.entities.User.filter({ email: normalizedEmail }),
+      dataClient.entities.StudentAccount.filter({ email: normalizedEmail }),
     ]);
 
     await Promise.all([
-      ...users.map((u) => base44.entities.User.delete(u.id)),
-      ...accounts.map((a) => base44.entities.StudentAccount.delete(a.id)),
-      base44.entities.PendingUser.delete(normalizedEmail).catch(() => null),
+      ...users.map((u) => dataClient.entities.User.delete(u.id)),
+      ...accounts.map((a) => dataClient.entities.StudentAccount.delete(a.id)),
+      dataClient.entities.PendingUser.delete(normalizedEmail).catch(() => null),
     ]);
   };
 
@@ -129,7 +129,7 @@ export default function UserManagement() {
   const handleSaveTeacher = async () => {
     if (!teacherForm.full_name.trim() || !teacherForm.email.trim()) return;
     setSavingTeacher(true);
-    await base44.users.inviteUser(teacherForm.email, 'admin', { full_name: teacherForm.full_name });
+    await dataClient.users.inviteUser(teacherForm.email, 'admin', { full_name: teacherForm.full_name });
     setInvitedTeacher(true);
     setSavingTeacher(false);
     load();

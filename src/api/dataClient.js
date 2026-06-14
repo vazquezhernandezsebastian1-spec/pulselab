@@ -178,7 +178,7 @@ const createEntity = (name) => (isFirebaseConfigured ? firestoreEntity(name) : l
 
 const getUser = () => readJson(USER_STORAGE_KEY, null);
 
-export const base44 = {
+export const dataClient = {
   auth: {
     me: async () => {
       const user = getUser();
@@ -216,18 +216,18 @@ export const base44 = {
         is_active: true,
       };
 
-      const existingUsers = await base44.entities.User.filter({ email: normalizedEmail });
+      const existingUsers = await dataClient.entities.User.filter({ email: normalizedEmail });
       if (existingUsers[0]) {
-        await base44.entities.User.update(existingUsers[0].id, user);
+        await dataClient.entities.User.update(existingUsers[0].id, user);
       }
 
-      return base44.entities.PendingUser.create(user);
+      return dataClient.entities.PendingUser.create(user);
     },
   },
 };
 
-export const ClinicalCase = base44.entities.ClinicalCase;
-export const StudentAccount = base44.entities.StudentAccount;
-export const StudentResult = base44.entities.StudentResult;
-export const User = base44.entities.User;
-export const PendingUser = base44.entities.PendingUser;
+export const ClinicalCase = dataClient.entities.ClinicalCase;
+export const StudentAccount = dataClient.entities.StudentAccount;
+export const StudentResult = dataClient.entities.StudentResult;
+export const User = dataClient.entities.User;
+export const PendingUser = dataClient.entities.PendingUser;

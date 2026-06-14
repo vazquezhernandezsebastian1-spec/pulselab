@@ -5,7 +5,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
@@ -33,7 +33,7 @@ import CaseSession from '@/pages/CaseSession';
 const RoleRedirect = () => {
   const [target, setTarget] = React.useState(null);
   React.useEffect(() => {
-    base44.auth.me().then(user => {
+    dataClient.auth.me().then(user => {
       setTarget(user?.role === 'admin' ? '/teacher/cases' : '/student/cases');
     }).catch(() => setTarget('/student/cases'));
   }, []);

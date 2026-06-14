@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import VitalSignsMonitor from '@/components/VitalSignsMonitor';
 import CaseTimer from '@/components/CaseTimer';
 import { Button } from '@/components/ui/button';
@@ -24,8 +24,8 @@ export default function CaseSession() {
 
   useEffect(() => {
     Promise.all([
-      base44.entities.ClinicalCase.get(id),
-      base44.auth.me(),
+      dataClient.entities.ClinicalCase.get(id),
+      dataClient.auth.me(),
     ]).then(([c, u]) => {
       setCaseData(c);
       setUser(u);
@@ -85,7 +85,7 @@ export default function CaseSession() {
     const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
     const timeUsed = Math.round((Date.now() - startTime) / 1000);
 
-    await base44.entities.StudentResult.create({
+    await dataClient.entities.StudentResult.create({
       student_email: user?.email || '',
       student_name: user?.full_name || '',
       case_id: id,

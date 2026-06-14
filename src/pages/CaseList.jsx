@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import { PlusCircle, BookOpen, Edit2, Trash2, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,17 +15,17 @@ export default function CaseList() {
 
   const load = () => {
     setLoading(true);
-    base44.entities.ClinicalCase.list('-created_date').then(setCases).finally(() => setLoading(false));
+    dataClient.entities.ClinicalCase.list('-created_date').then(setCases).finally(() => setLoading(false));
   };
 
   const handleDelete = async (c) => {
     if (!confirm(`¿Eliminar el caso "${c.title}"? Esta acción no se puede deshacer.`)) return;
-    await base44.entities.ClinicalCase.delete(c.id);
+    await dataClient.entities.ClinicalCase.delete(c.id);
     load();
   };
 
   const handleToggleStatus = async (c) => {
-    await base44.entities.ClinicalCase.update(c.id, { status: c.status === 'published' ? 'draft' : 'published' });
+    await dataClient.entities.ClinicalCase.update(c.id, { status: c.status === 'published' ? 'draft' : 'published' });
     load();
   };
 

@@ -63,7 +63,7 @@ La aplicación cubre los flujos principales solicitados en el proyecto:
 - Cloud Firestore
 - Firebase Hosting
 - Three.js
-- Base44
+- Cliente de datos
 - Codex
 - Claude
 

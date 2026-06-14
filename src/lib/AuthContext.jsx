@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
-import { base44 } from '@/api/base44Client';
+import { dataClient } from '@/api/dataClient';
 import { appParams } from '@/lib/app-params';
 import { firebaseAuth, googleProvider, isFirebaseConfigured } from '@/api/firebaseClient';
 
@@ -54,15 +54,15 @@ const buildUserFromGoogleProfile = async (profile) => {
   let pendingUser = null;
 
   if (uid) {
-    existingUser = await base44.entities.User.get(uid).catch(() => null);
+    existingUser = await dataClient.entities.User.get(uid).catch(() => null);
   }
 
   if (!existingUser && !uid) {
-    const existingUsers = await base44.entities.User.filter({ email });
+    const existingUsers = await dataClient.entities.User.filter({ email });
     existingUser = existingUsers[0] || null;
   }
 
-  pendingUser = await base44.entities.PendingUser.get(email).catch(() => null);
+  pendingUser = await dataClient.entities.PendingUser.get(email).catch(() => null);
 
   if (!existingUser && !pendingUser && !isConfiguredAdmin(email)) {
     const error = new Error('User is not registered');
@@ -87,9 +87,9 @@ const buildUserFromGoogleProfile = async (profile) => {
     provider: 'google',
   };
 
-  await base44.entities.User.create(nextUser);
+  await dataClient.entities.User.create(nextUser);
 
-  await base44.auth.setSession(nextUser);
+  await dataClient.auth.setSession(nextUser);
   return nextUser;
 };
 
@@ -186,7 +186,7 @@ export const AuthProvider = ({ children }) => {
   const checkUserAuth = async () => {
     try {
       setIsLoadingAuth(true);
-      const currentUser = await base44.auth.me();
+      const currentUser = await dataClient.auth.me();
       setUser(currentUser);
       setIsAuthenticated(true);
       setAuthError(null);
@@ -229,7 +229,7 @@ export const AuthProvider = ({ children }) => {
     } else if (user?.email && window.google?.accounts?.id) {
       window.google.accounts.id.disableAutoSelect();
     }
-    await base44.auth.logout();
+    await dataClient.auth.logout();
   };
 
   const navigateToLogin = () => {
