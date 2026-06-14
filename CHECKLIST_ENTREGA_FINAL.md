@@ -21,10 +21,12 @@
 
 ## Pendiente de completar o validar
 
+> Actualizado: la minuta de validación ya incluye firmas y evidencia de aprobación.
+
 - Revisar `documentacion/Especificacion_Final_Proyecto.docx` y ajustar nombres/firmas si el docente solicita cambios.
 - Actualizar `documentacion/Matriz_Requerimientos.xlsx`: cambiar estados de `Propuesto` a `Validado con cliente` o `Validado internamente`.
 - Rehacer `documentacion/Matriz_Trazabilidad.xlsx`: la plantilla actual trae ejemplos de otro sistema y debe mapear los requerimientos reales de PulseLab.
-- Completar `minutas/Minuta_Validacion_Prototipo.docx` y agregar firma o evidencia de aprobación del cliente.
+- `minutas/Minuta_Validacion_Prototipo.docx` ya fue completada con firmas y evidencia de aprobación del cliente.
 - Si el docente lo pide en PDF, convertir `minutas/Minuta_Entrevista_Inicial.docx` a `Minutas_Entrevistas.pdf`.
 
 ## No subir manualmente
