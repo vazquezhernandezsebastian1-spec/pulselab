@@ -19,13 +19,13 @@
 - `diagramas/Diagrama_ER.mwb`
 - `diagramas/Diagrama_ER.mwb.zip`
 
-## Pendiente de completar o validar
+## Validado para entrega
 
 > Actualizado: la minuta de validación ya incluye firmas y evidencia de aprobación.
 
-- Revisar `documentacion/Especificacion_Final_Proyecto.docx` y ajustar nombres/firmas si el docente solicita cambios.
-- Actualizar `documentacion/Matriz_Requerimientos.xlsx`: cambiar estados de `Propuesto` a `Validado con cliente` o `Validado internamente`.
-- Rehacer `documentacion/Matriz_Trazabilidad.xlsx`: la plantilla actual trae ejemplos de otro sistema y debe mapear los requerimientos reales de PulseLab.
+- `documentacion/Especificacion_Final_Proyecto.docx` ya refleja la validación formal del prototipo.
+- `documentacion/Matriz_Requerimientos.xlsx` contiene requerimientos reales de PulseLab con estado validado.
+- `documentacion/Matriz_Trazabilidad.xlsx` ya mapea los requerimientos reales contra pantallas y componentes del prototipo.
 - `minutas/Minuta_Validacion_Prototipo.docx` ya fue completada con firmas y evidencia de aprobación del cliente.
 - Si el docente lo pide en PDF, convertir `minutas/Minuta_Entrevista_Inicial.docx` a `Minutas_Entrevistas.pdf`.
 
